@@ -3,12 +3,20 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject leftControllerGameObject;
+    public GameObject rightControllerGameObject;
 
-	// Use this for initialization
-	void Start ()
+    public float speed = 3f;
+
+    ControllerManager leftController;
+    ControllerManager rightController;
+
+    // Use this for initialization
+    void Start ()
 	{
-        
-	}
+        leftController = ControllerManager.Create(leftControllerGameObject, "Left");
+        rightController = ControllerManager.Create(rightControllerGameObject, "Right");
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -18,11 +26,16 @@ public class PlayerController : MonoBehaviour
 
 	void Move ()
 	{
-		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-		RaycastHit hit;
+        if (rightController.TriggerPressed())
+        {
+            transform.Translate(rightController.getDragDistance() * Time.deltaTime * speed);
+        } 
 
-		if (Physics.Raycast (ray, out hit)) {
-			transform.position = hit.point;
-		}
+		// Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+		// RaycastHit hit;
+        // 
+		// if (Physics.Raycast (ray, out hit)) {
+		// 	transform.position = hit.point;
+		// }
 	}
 }
