@@ -13,7 +13,7 @@ public class ControllerManager
 	public ControllerManager (SteamVR_TrackedController controller, string name)
 	{
 		device = controller;
-		// device.TriggerClicked += this.Trigger;
+		device.TriggerClicked += this.Trigger;
 		this.name = name;
 	}
 
@@ -30,7 +30,7 @@ public class ControllerManager
 
 	public Vector3 getDragDistance ()
 	{
-		Vector3 draggedSinceLastTime = device.transform.localPosition - dragStart;
+		Vector3 draggedSinceLastTime = dragStart - device.transform.localPosition;
 
 		dragStart = device.transform.localPosition;
 
