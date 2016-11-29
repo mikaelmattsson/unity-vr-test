@@ -15,21 +15,22 @@ public class PlayerController : MonoBehaviour
     void Start ()
 	{
         leftController = ControllerManager.Create(leftControllerGameObject, "Left");
-        rightController = ControllerManager.Create(rightControllerGameObject, "Right");
+		rightController = ControllerManager.Create(rightControllerGameObject, "Right");
     }
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		Move ();
+		ApplyDragFromController (leftController);
+		ApplyDragFromController (rightController);
 	}
 
 	void Move ()
 	{
-        if (rightController.TriggerPressed())
-        {
-            transform.Translate(rightController.getDragDistance() * Time.deltaTime * speed);
-        } 
+        // if (rightController.TriggerPressed())
+        // {
+        //     transform.Translate(rightController.getDragDistance() * Time.deltaTime * speed);
+        // } 
 
 		// Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		// RaycastHit hit;
@@ -37,5 +38,12 @@ public class PlayerController : MonoBehaviour
 		// if (Physics.Raycast (ray, out hit)) {
 		// 	transform.position = hit.point;
 		// }
+	}
+
+	void ApplyDragFromController (ControllerManager controller)
+	{
+		if (controller.device.triggerPressed) {
+			transform.Translate (controller.getDragDistance ());
+		}
 	}
 }
