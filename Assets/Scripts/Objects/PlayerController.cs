@@ -12,38 +12,32 @@ public class PlayerController : MonoBehaviour
     ControllerManager rightController;
 
     // Use this for initialization
-    void Start ()
-	{
+    void Start()
+    {
         leftController = ControllerManager.Create(leftControllerGameObject, "Left");
-		rightController = ControllerManager.Create(rightControllerGameObject, "Right");
+        rightController = ControllerManager.Create(rightControllerGameObject, "Right");
     }
-	
-	// Update is called once per frame
-	void Update ()
-	{
-		ApplyDragFromController (leftController);
-		ApplyDragFromController (rightController);
-	}
 
-	void Move ()
-	{
-        // if (rightController.TriggerPressed())
-        // {
-        //     transform.Translate(rightController.getDragDistance() * Time.deltaTime * speed);
-        // } 
+    // Update is called once per frame
+    void Update()
+    {
+        HandleControllerUpdate(leftController);
+        HandleControllerUpdate(rightController);
+    }
 
-		// Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-		// RaycastHit hit;
-        // 
-		// if (Physics.Raycast (ray, out hit)) {
-		// 	transform.position = hit.point;
-		// }
-	}
+    void HandleControllerUpdate(ControllerManager controller)
+    {
+        controller.Update();
+        ApplyDragFromController(controller);
+    }
 
-	void ApplyDragFromController (ControllerManager controller)
-	{
-		if (controller.device.triggerPressed) {
-			transform.Translate (controller.getDragDistance ());
-		}
-	}
+    void ApplyDragFromController(ControllerManager controller)
+    {
+        if (controller.isDragging())
+        {
+            Vector3 d = controller.getDragDistance();
+
+            transform.Translate(new Vector3(d.x, 0, d.z));
+        }
+    }
 }
